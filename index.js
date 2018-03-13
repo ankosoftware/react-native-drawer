@@ -53,7 +53,6 @@ export default class Drawer extends Component {
       onCloseStart: PropTypes.func,
       onOpen: PropTypes.func,
       onOpenStart: PropTypes.func,
-      onDragStart: PropTypes.func,
       openDrawerOffset: PropTypes.oneOfType([PropTypes.number, PropTypes.func]),
       panThreshold: PropTypes.number,
       panCloseMask: PropTypes.number,
@@ -282,9 +281,6 @@ export default class Drawer extends Component {
       this._length = length
 
       this.updatePosition()
-      if (!this._panning) {
-        this.props.onDragStart && this.props.onDragStart()
-      }
       this._panning = true
     };
 
@@ -302,8 +298,6 @@ export default class Drawer extends Component {
     processShouldSet = (e, gestureState) => {
       let inMask = this.testPanResponderMask(e, gestureState)
       if (!inMask) return false
-    // skip gesture process if we have mostly vertical swipe
-      if (!this._open && Math.abs(gestureState.dy) >= Math.abs(gestureState.dx)) return false
       this._panStartTime = Date.now()
       if (inMask && this.shouldCaptureGestures()) return true
       if (this.props.negotiatePan) return false
@@ -503,7 +497,7 @@ export default class Drawer extends Component {
       return this.isLeftOrRightSide() ? viewport.width - this._offsetClosed : viewport.width
     };
     getMainHeight = (viewport = this.state.viewport) => {
-      return viewport.height // this.isTopOrBottomSide() ? viewport.height - this._offsetClosed : viewport.height;
+      return viewport.height;  this.isTopOrBottomSide() ? viewport.height - this._offsetClosed : viewport.height
     };
     getDrawerWidth = (viewport = this.state.viewport) => {
       return this.isLeftOrRightSide() ? viewport.width - this._offsetOpen : viewport.width
