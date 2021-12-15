@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { PanResponder, View, StyleSheet, Dimensions, InteractionManager, I18nManager } from 'react-native'
+import { PanResponder, View, StyleSheet, Dimensions, InteractionManager, I18nManager, SafeAreaView } from 'react-native'
 
 import tween from './tweener'
 
@@ -555,14 +555,14 @@ export default class Drawer extends Component {
       let second = this.props.type === 'overlay' ? this.renderDrawer() : this.renderMain()
 
       return (
-            <View
+            <SafeAreaView
                 key="drawerContainer"
                 onLayout={this.handleSetViewport}
                 style={this.stylesheet.container}
             >
                 {first}
                 {second}
-            </View>
+            </SafeAreaView>
         )
     }
 
